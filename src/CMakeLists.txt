@@ -23,6 +23,7 @@ set(SRC
     world.hpp
 
     simulation.cpp
+    solver.cpp
     world.cpp
 )
 

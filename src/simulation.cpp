@@ -5,7 +5,7 @@ using namespace std;
 void Simulation::run(const int stepsNb) {
   vector<vec3> pos{vec3(1, 0, 0), vec3(0, 1, 0), vec3(0, 0, 1)};
   vector<vec3> vel{vec3(0, 0.7, 0), vec3(0, 0, 0.7), vec3(0.7, 0, 0)};
-  World world(pos, vel);
+  World world(3, pos, vel);
   for (int i = 0; i < stepsNb; i++) {
     this->log(world);
     world = solver.step(world);
@@ -23,7 +23,7 @@ void Simulation::savePositions(const string filename /*= "positions.txt"*/) {
   while (!this->positionHistory.empty()) {
     vector<vec3> pos = this->positionHistory.top();
     outFile << "[";
-    for (int i = 0; i < N; i++) {
+    for (int i = 0; i < this->N; i++) {
       outFile << pos[i];
       if (i != N - 1) {
         outFile << ", ";
@@ -41,7 +41,7 @@ void Simulation::save(const string filename /*= "data.txt"*/) {
   while (!this->positionHistory.empty()) {
     vector<vec3> pos = this->positionHistory.top();
     outFile << "[";
-    for (int i = 0; i < N; i++) {
+    for (int i = 0; i < this->N; i++) {
       outFile << pos[i];
       if (i != N - 1) {
         outFile << ", ";
@@ -55,9 +55,9 @@ void Simulation::save(const string filename /*= "data.txt"*/) {
   while (!this->velocityHistory.empty()) {
     vector<vec3> vel = this->velocityHistory.top();
     outFile << "[";
-    for (int i = 0; i < N; i++) {
+    for (int i = 0; i < this->N; i++) {
       outFile << vel[i];
-      if (i != N - 1) {
+      if (i != this->N - 1) {
         outFile << ", ";
       }
     }
