@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.10)
 # set the project name and version
 project(Tutorial VERSION 0.1)
 
+SET(CUSTOM_COMPILE_FLAGS "-O3 -march=native -flto -Wl,-O1 -Wno-comment")
+
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -19,10 +21,9 @@ set(SRC
     simulation.hpp
     solver.hpp
     world.hpp
-    globals.hpp
 
+    simulation.cpp
     world.cpp
-    globals.cpp
 )
 
 target_sources(Nbodies PRIVATE "${SRC}")

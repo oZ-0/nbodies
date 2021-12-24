@@ -1,7 +1,8 @@
 #pragma once
-
-#include "world.hpp"
 #include "solver.hpp"
+#include "world.hpp"
+#include <stack>
+#include <fstream>
 
 using namespace std;
 class Simulation {
@@ -14,55 +15,16 @@ public:
   explicit Simulation()
       : solver(EulerSolver()), positionHistory(stack<vector<vec3>>()),
         velocityHistory(stack<vector<vec3>>()) {}
-  explicit Simulation(double h)
-      : solver(EulerSolver(h)), positionHistory(stack<vector<vec3>>()),
+
+  explicit Simulation(int N, double h)
+      : solver(EulerSolver(N, h)), positionHistory(stack<vector<vec3>>()),
         velocityHistory(stack<vector<vec3>>()) {}
 
-  void run(int stepsNb) {
-    vector<vec3> pos{vec3(1, 0, 0), vec3(0, 1, 0), vec3(0, 0, 1)};
-    vector<vec3> vel{vec3(0, 0.7, 0), vec3(0, 0, 0.7), vec3(0.7, 0, 0)};
-    World world(pos, vel);
-    for (int i = 0; i < stepsNb; i++) {
-      this->log(world);
-      world = solver.step(world);
-    }
-    this->save();
-  }
+  void run(const int stepsNb);
+
+  void log(const World &world);
   
-  void log(const World &world) {
-    this->positionHistory.push(world.position);
-    this->velocityHistory.push(world.velocity);
-  }
+  void savePositions(const string filename = "positions.txt");
 
-  void save(string filename = "data.txt") {
-    ofstream outFile(filename);
-
-    outFile << "Positions:" << endl << "---" << endl;
-    while (!this->positionHistory.empty()) {
-      vector<vec3> pos = this->positionHistory.top();
-      outFile << "[";
-      for (int i = 0; i < N; i++) {
-        outFile << pos[i];
-        if (i != N - 1) {
-          outFile << ", ";
-        }
-      }
-      outFile << "]" << endl;
-      this->positionHistory.pop();
-    }
-
-    outFile << "---" << endl << "Velocities:" << endl << "---" << endl;
-    while (!this->velocityHistory.empty()) {
-      vector<vec3> vel = this->velocityHistory.top();
-      outFile << "[";
-      for (int i = 0; i < N; i++) {
-        outFile << vel[i];
-        if (i != N - 1) {
-          outFile << ", ";
-        }
-      }
-      outFile << "]" << endl;
-      this->velocityHistory.pop();
-    }
-  }
+  void save(const string filename = "data.txt");
 };
