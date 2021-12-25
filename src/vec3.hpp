@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <random>
 
 using namespace std;
 
@@ -15,6 +16,13 @@ public:
 
   explicit vec3(const double x, const double y, const double z)
       : x(x), y(y), z(z) {}
+
+  explicit vec3(uniform_real_distribution<double> &dis, mt19937 &gen)
+      : x(dis(gen)), y(dis(gen)), z(dis(gen)) {}
+
+  double getX() const { return x; }
+  double getY() const { return y; }
+  double getZ() const { return z; }
 
   inline double L2Norm() const {
     return sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
@@ -68,7 +76,7 @@ public:
 };
 
 /**
- * @brief Overload of the operator << for the vec3
+ * @brief Overload of the operator << for vec3
  *
  * @param os
  * @return ostream&
@@ -78,6 +86,7 @@ inline ostream &operator<<(ostream &os, const vec3 &vec) {
 
   return os;
 }
+
 inline vec3 operator*(const double &val, const vec3 &vec) {
   return vec3(val * vec.x, val * vec.y, val * vec.z);
 }
