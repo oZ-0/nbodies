@@ -51,7 +51,7 @@ void Simulation::randomSearch() {
     vector<vec3> vel({vec3(dis, gen), vec3(dis, gen), vec3(dis, gen)});
     World cWorld = World(pos, vel);
 
-    this->run(5000, cWorld);
+    this->run(25000, cWorld);
     double stability = this->stability();
     if (stability < minStability) {
       minStability = stability;

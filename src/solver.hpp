@@ -1,6 +1,6 @@
 #pragma once
-#include <string>
 #include "world.hpp"
+#include <string>
 
 class GenericSolver {
 protected:
@@ -13,13 +13,24 @@ public:
 
 class EulerSolver : public GenericSolver {
 protected:
-  int N;
   double h;
 
 public:
-  explicit EulerSolver() : N(3), h(1.0) {}
+  explicit EulerSolver() : h(1.0) {}
 
-  explicit EulerSolver(int N, double h) : N(N), h(h) {}
+  explicit EulerSolver(double h) : h(h) {}
+
+  void step(World &world_t) const;
+};
+
+class LeapFrogSolver : public GenericSolver {
+protected:
+  double h;
+
+public:
+  explicit LeapFrogSolver() : h(1.0) {}
+
+  explicit LeapFrogSolver(double h) : h(h) {}
 
   void step(World &world_t) const;
 };

@@ -14,15 +14,15 @@ protected:
   deque<vector<vec3>> positionHistory;
   deque<vector<vec3>> velocityHistory;
   deque<World> worldHistory;
-  EulerSolver solver;
+  LeapFrogSolver solver;
 
 public:
   explicit Simulation()
-      : N(), solver(EulerSolver()), positionHistory(deque<vector<vec3>>()),
+      : N(), solver(LeapFrogSolver()), positionHistory(deque<vector<vec3>>()),
         velocityHistory(deque<vector<vec3>>()), worldHistory(deque<World>()) {}
 
   explicit Simulation(const int &N, const double &h)
-      : N(N), solver(EulerSolver(N, h)), positionHistory(deque<vector<vec3>>()),
+      : N(N), solver(LeapFrogSolver(h)), positionHistory(deque<vector<vec3>>()),
         velocityHistory(deque<vector<vec3>>()), worldHistory(deque<World>()) {}
 
   void run_example(const int &stepsNb);
