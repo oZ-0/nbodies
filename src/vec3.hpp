@@ -20,6 +20,10 @@ public:
   explicit vec3(uniform_real_distribution<double> &dis, mt19937 &gen)
       : x(dis(gen)), y(dis(gen)), z(dis(gen)) {}
 
+  void setX(double x) { x = x; }
+  void setY(double y) { y = y; }
+  void setZ(double z) { z = z; }
+
   double getX() const { return x; }
   double getY() const { return y; }
   double getZ() const { return z; }
