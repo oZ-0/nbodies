@@ -12,22 +12,24 @@ public:
 
 public:
   explicit World(const int N = 3)
-      : position(vector<vec3>(N, vec3())), velocity(vector<vec3>(N, vec3())){};
-  explicit World(const int N, vector<vec3> position)
-      : position(position), velocity(vector<vec3>(N, vec3())){};
-  explicit World(vector<vec3> position, vector<vec3> velocity)
-      : position(position), velocity(velocity){};
+      : position(vector<vec3>(N, vec3())), velocity(vector<vec3>(N, vec3())) {}
+  explicit World(const int N, const vector<vec3> &position)
+      : position(position), velocity(vector<vec3>(N, vec3())) {}
+  explicit World(const vector<vec3> &position, const vector<vec3> &velocity)
+      : position(position), velocity(velocity) {}
+  explicit World(const World &world)
+      : position(world.position), velocity(world.velocity) {}
 
   vec3 force(const int objId) const;
 
   /**
    * @brief Compute the distance between two worlds.
-   * 
+   *
    * @param world The world to compare to
-   * @return double 
+   * @return double
    */
-  double distance(const World& world) const;
-  
+  double distance(const World &world) const;
+
   vector<vec3> getPosition() const { return position; }
   vector<vec3> getVelocity() const { return velocity; }
 
