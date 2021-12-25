@@ -8,7 +8,7 @@ protected:
 
 public:
   explicit GenericSolver() {}
-  virtual World step(const World &world_t) const = 0;
+  virtual void step(World &world_t) const = 0;
 };
 
 class EulerSolver : public GenericSolver {
@@ -21,5 +21,5 @@ public:
 
   explicit EulerSolver(int N, double h) : N(N), h(h) {}
 
-  World step(const World &world_t) const;
+  void step(World &world_t) const;
 };
