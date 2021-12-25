@@ -20,6 +20,14 @@ public:
 
   vec3 force(const int objId) const;
 
+  /**
+   * @brief Compute the distance between two worlds.
+   * 
+   * @param world The world to compare to
+   * @return double 
+   */
+  double distance(const World& world) const;
+  
   vector<vec3> getPosition() const { return position; }
   vector<vec3> getVelocity() const { return velocity; }
 
