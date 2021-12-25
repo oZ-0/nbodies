@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 # set the project name and version
 project(Tutorial VERSION 0.1)
 
-SET(CUSTOM_COMPILE_FLAGS "-O3 -march=native -flto -Wl,-O1 -Wno-comment")
+SET(CUSTOM_COMPILE_FLAGS "-O3 -march=native -flto -Wl,-O1")
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
