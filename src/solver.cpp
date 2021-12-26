@@ -32,3 +32,49 @@ void LeapFrogSolver::step(World &world_t) const {
   }
   world_t.setVelocity(velocity_tp1);
 }
+
+void Yoshida4Solver::step(World &world_t) const {
+  int size = world_t.position.size();
+  
+  vector<vec3> position_tp1(size, vec3());
+  vector<vec3> velocity_tp1(size, vec3());
+
+  for (int ObjId = 0; ObjId < size; ObjId++) {
+    position_tp1[ObjId] =
+        world_t.position[ObjId] + this->h * this->c1 * world_t.velocity[ObjId];
+  }
+  world_t.setPosition(position_tp1);
+  for (int ObjId = 0; ObjId < size; ObjId++) {
+    velocity_tp1[ObjId] =
+        world_t.velocity[ObjId] + this->h * this->w1 * world_t.force(ObjId);
+  }
+  world_t.setVelocity(velocity_tp1);
+
+  for (int ObjId = 0; ObjId < size; ObjId++) {
+    position_tp1[ObjId] =
+        world_t.position[ObjId] + this->h * this->c2 * world_t.velocity[ObjId];
+  }
+  world_t.setPosition(position_tp1);
+  for (int ObjId = 0; ObjId < size; ObjId++) {
+    velocity_tp1[ObjId] =
+        world_t.velocity[ObjId] + this->h * this->w0 * world_t.force(ObjId);
+  }
+  world_t.setVelocity(velocity_tp1);
+
+  for (int ObjId = 0; ObjId < size; ObjId++) {
+    position_tp1[ObjId] =
+        world_t.position[ObjId] + this->h * this->c2 * world_t.velocity[ObjId];
+  }
+  world_t.setPosition(position_tp1);
+  for (int ObjId = 0; ObjId < size; ObjId++) {
+    velocity_tp1[ObjId] =
+        world_t.velocity[ObjId] + this->h * this->w1 * world_t.force(ObjId);
+  }
+  world_t.setVelocity(velocity_tp1);
+
+  for (int ObjId = 0; ObjId < size; ObjId++) {
+    position_tp1[ObjId] =
+        world_t.position[ObjId] + this->h * this->c1 * world_t.velocity[ObjId];
+  }
+  world_t.setPosition(position_tp1);
+}
