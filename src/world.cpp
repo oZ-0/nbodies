@@ -3,9 +3,10 @@
 int World::getNumObjects() const { return this->position.size(); }
 
 vec3 World::force(const int objId) const {
+  int NObjects = this->position.size();
   vec3 objPosition = this->position[objId];
   vec3 force_vec;
-  for (int i = 0; i < this->position.size(); i++) {
+  for (int i = 0; i < NObjects; i++) {
     if (i != objId) {
       vec3 diff = this->position[i] - objPosition;
       force_vec += diff.normalized() / diff.L2sNorm();

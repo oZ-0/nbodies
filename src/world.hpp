@@ -17,6 +17,15 @@ public:
       : position(position), velocity(vector<vec3>(N, vec3())) {}
   explicit World(const vector<vec3> &position, const vector<vec3> &velocity)
       : position(position), velocity(velocity) {}
+
+  explicit World(const int &NObjects, uniform_real_distribution<double> &dis,
+                 mt19937 &gen) {
+    for (int i = 0; i < NObjects; i++) {
+      this->position.push_back(vec3(dis, gen));
+      this->velocity.push_back(vec3(dis, gen));
+    }
+  }
+
   explicit World(const World &world)
       : position(world.position), velocity(world.velocity) {}
 
@@ -42,8 +51,8 @@ public:
   void operator+=(const vector<double> &grad) {
     int NObjects = this->position.size();
     for (int i = 0; i < NObjects * 3 * 2; i++) {
-      int object = i / (NObjects*2);
-      int dimension = i % (NObjects*2);
+      int object = i / (NObjects * 2);
+      int dimension = i % (NObjects * 2);
       if (dimension <= 2) {
         this->position[object][dimension] += grad[i];
       } else {
@@ -55,8 +64,8 @@ public:
   void operator-=(const vector<double> &grad) {
     int NObjects = this->position.size();
     for (int i = 0; i < NObjects * 3 * 2; i++) {
-      int object = i / (NObjects*2);
-      int dimension = i % (NObjects*2);
+      int object = i / (NObjects * 2);
+      int dimension = i % (NObjects * 2);
       if (dimension <= 2) {
         this->position[object][dimension] -= grad[i];
       } else {
@@ -92,11 +101,11 @@ inline ostream &operator<<(ostream &os, const World &world) {
     os << "[" << world.position[i].getX() << ", " << world.position[i].getY()
        << ", " << world.position[i].getZ() << "]" << endl;
   }
-  for (int i = 0; i < world.position.size(); i++) {
+  for (int i = 0; i < world.velocity.size(); i++) {
     os << "Velocities " << i << endl;
     os << "[" << world.velocity[i].getX() << ", " << world.velocity[i].getY()
        << ", " << world.velocity[i].getZ() << "]";
-    if (i != world.position.size() - 1) {
+    if (i != world.velocity.size() - 1) {
       os << endl;
     }
   }
