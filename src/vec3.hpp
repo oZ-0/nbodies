@@ -75,6 +75,37 @@ public:
     return *this;
   }
 
+  double operator[](int i) const {
+    switch (i) {
+    case 0:
+      return this->x;
+      break;
+    case 1:
+      return this->y;
+      break;
+    case 2:
+      return this->z;
+      break;
+    default:
+      break;
+    }
+  }
+  double &operator[](int i) {
+    switch (i) {
+    case 0:
+      return this->x;
+      break;
+    case 1:
+      return this->y;
+      break;
+    case 2:
+      return this->z;
+      break;
+    default:
+      break;
+    }
+  }
+
   friend inline ostream &operator<<(ostream &os, const vec3 &vec);
   friend inline vec3 operator*(const double &val, const vec3 &vec);
 };
