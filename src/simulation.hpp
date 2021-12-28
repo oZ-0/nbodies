@@ -14,15 +14,15 @@ protected:
   deque<vector<vec3>> positionHistory;
   deque<vector<vec3>> velocityHistory;
   deque<World> worldHistory;
-  LeapFrogSolver solver;
+  Yoshida4Solver solver;
 
 public:
   explicit Simulation()
-      : N(), solver(LeapFrogSolver()), positionHistory(deque<vector<vec3>>()),
+      : N(), solver(Yoshida4Solver()), positionHistory(deque<vector<vec3>>()),
         velocityHistory(deque<vector<vec3>>()), worldHistory(deque<World>()) {}
 
   explicit Simulation(const int &N, const double &h)
-      : N(N), solver(LeapFrogSolver(h)), positionHistory(deque<vector<vec3>>()),
+      : N(N), solver(Yoshida4Solver(h)), positionHistory(deque<vector<vec3>>()),
         velocityHistory(deque<vector<vec3>>()), worldHistory(deque<World>()) {}
 
   void run_example(const int &stepsNb);
@@ -32,7 +32,8 @@ public:
   void randomSearch(const int &searchNb);
   void randomSearch();
 
-  double stability() const;
+  double stability(const bool &clear = false);
+  void optimize(World &world, int stepNb = 100, const bool verbose = true);
 
   void log(const World &world);
   void savePositions(const string &filename = "positions.txt");

@@ -38,8 +38,56 @@ void Simulation::randomSearch(const int &searchNb) {
   }
 }
 
+void Simulation::optimize(World &world, int stepNb /*= 100*/,
+                          const bool verbose /*= true*/) {
+  int NObjects = world.getNumObjects();
+  World newWorld(world);
+  double h = 0.1;
+  this->run(25000, newWorld);
+  double preQ = 1e10;
+  double Q = this->stability(true);
+  if (verbose) {
+    cout << "Starting stability: " << Q << endl;
+  }
+  int step = 0;
+  vector<double> grad(NObjects * 3 * 2 , 0);
+  while (h > 1e-5 && step < stepNb) {
+    while (Q <= preQ && h > 1e-5 && step < stepNb) {
+      preQ = Q;
+      for (int i = 0; i < NObjects * 3 * 2; i++) {
+        World newWorld = world.tilt(i, h);
+        this->run(25000, newWorld);
+        double newQ = this->stability(true);
+        cout << newQ << " ";
+        grad[i] = newQ - Q;
+      }
+      cout << "Grad: ";
+      for (int i = 0; i < NObjects * 3 * 2; i++) {
+        cout << grad[i] << ", ";
+      }
+      cout << endl;
+      world -= grad;
+      this->run(25000, world);
+      Q = this->stability(true);
+      if (verbose) {
+        cout << "Stability: " << Q << "; h: " << h << "; step: " << step
+             << endl;
+        // cout << world;
+      }
+      step++;
+    }
+    if (verbose) {
+      cout << "Temporary failure..." << endl;
+    }
+    Q = preQ;
+    world += grad;
+    h /= 1.1;
+    step++;
+  }
+}
+
 void Simulation::randomSearch() {
-  double minStability = 10.0;
+  double minStability = 1e10;
   bool found = false;
 
   int i = 0;
@@ -61,7 +109,7 @@ void Simulation::randomSearch() {
       cout << i << " Min stability: " << minStability << endl;
     ;
     i++;
-    if (stability < 1) {
+    if (stability < 0.1) {
       cout << cWorld << endl << "Stability: " << stability << endl;
       found = true;
     }
@@ -78,7 +126,7 @@ void Simulation::randomSearch() {
 //   return init.distance(minWorld);
 // }
 
-double Simulation::stability() const {
+double Simulation::stability(const bool &clear /*= false*/) {
   World init(this->worldHistory.front());
   double dist = init.distance(this->worldHistory.back());
   for (int i = 1000; i < this->worldHistory.size(); i++) {
@@ -86,6 +134,9 @@ double Simulation::stability() const {
     if (newDist < dist) {
       dist = newDist;
     }
+  }
+  if (clear) {
+    this->clear();
   }
   return dist;
 }
