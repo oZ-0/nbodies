@@ -7,7 +7,16 @@ using namespace std;
 
 class World {
 public:
+  /**
+   * @brief The positions of the interacting objects
+   *
+   */
   vector<vec3> position;
+
+  /**
+   * @brief The velocities of the interacting objects
+   *
+   */
   vector<vec3> velocity;
 
 public:
@@ -18,6 +27,13 @@ public:
   explicit World(const vector<vec3> &position, const vector<vec3> &velocity)
       : position(position), velocity(velocity) {}
 
+  /**
+   * @brief Construct a new random World object
+   *
+   * @param NObjects The number of interacting objects
+   * @param dis The random distribution
+   * @param gen The Mersenne Twister generator
+   */
   explicit World(const int &NObjects, uniform_real_distribution<double> &dis,
                  mt19937 &gen) {
     for (int i = 0; i < NObjects; i++) {
@@ -26,12 +42,30 @@ public:
     }
   }
 
+  /**
+   * @brief Construct a new World object by copy
+   *
+   * @param world The world to copy
+   */
   explicit World(const World &world)
       : position(world.position), velocity(world.velocity) {}
 
+  /**
+   * @brief Compute the force vector applied to the chosen object
+   *
+   * @param objId The object on which to compute the force
+   * @return vec3
+   */
   vec3 force(const int objId) const;
 
-  World tilt(const int i, const double h) const;
+  /**
+   * @brief Construct a modified version of the current world
+   * 
+   * @param i The dimension of the value to be modified
+   * @param h The modification coefficient
+   * @return World 
+   */
+  World tilt(const int& i, const double& h) const;
 
   /**
    * @brief Compute the distance between two worlds.
@@ -41,6 +75,11 @@ public:
    */
   double distance(const World &world) const;
 
+  /**
+   * @brief Get the number of interacting objects
+   * 
+   * @return int
+   */
   int getNumObjects() const;
   vector<vec3> getPosition() const { return position; }
   vector<vec3> getVelocity() const { return velocity; }

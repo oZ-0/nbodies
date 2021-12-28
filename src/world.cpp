@@ -27,7 +27,7 @@ double World::distance(const World &world) const {
   return dist;
 }
 
-World World::tilt(const int i, const double h) const {
+World World::tilt(const int& i, const double& h) const {
   // check the dimension, check the object...
   int size = this->position.size();
   int object = i / (size*2);
