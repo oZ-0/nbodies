@@ -8,16 +8,10 @@ using namespace std;
 class World {
 public:
   /**
-   * @brief The positions of the interacting objects
+   * @brief The positions and velocities of the interacting objects
    *
    */
-  vector<vec3> position;
-
-  /**
-   * @brief The velocities of the interacting objects
-   *
-   */
-  vector<vec3> velocity;
+  vector<vec3> position, velocity;
 
 public:
   explicit World(const int N = 3)
