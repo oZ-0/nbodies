@@ -1,11 +1,13 @@
-# nbodies
+# N-Body Problem 
 
-uses cmake
+## How to build the project with Cmake
 
-mkdir build
+Type the following commands:
 
-cd build
+`mkdir build`
 
-cmake ../src
+`cd build`
 
-cmake --build .
+`cmake ../src`
+
+`cmake --build . -- -j 4`
