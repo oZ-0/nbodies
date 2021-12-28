@@ -1,5 +1,7 @@
 #include "world.hpp"
 
+int World::getNumObjects() const { return this->position.size(); }
+
 vec3 World::force(const int objId) const {
   vec3 objPosition = this->position[objId];
   vec3 force_vec;
@@ -22,4 +24,21 @@ double World::distance(const World &world) const {
     dist += (this->velocity[i] - world.velocity[i]).L2Norm();
   }
   return dist;
+}
+
+World World::tilt(const int i, const double h) const {
+  // check the dimension, check the object...
+  int size = this->position.size();
+  int object = i / (size*2);
+  int dimension = i % (size*2);
+  // cout << "size: " << size << "object " << object << "dimension: " << dimension
+  //      << endl;
+  vector<vec3> newPosition(this->position);
+  vector<vec3> newVelocity(this->velocity);
+  if (dimension <= 2) {
+    newPosition[object][dimension] += h;
+  } else {
+    newVelocity[object][dimension - 3] += h;
+  }
+  return World(newPosition, newVelocity);
 }

@@ -22,6 +22,8 @@ public:
 
   vec3 force(const int objId) const;
 
+  World tilt(const int i, const double h) const;
+
   /**
    * @brief Compute the distance between two worlds.
    *
@@ -30,11 +32,38 @@ public:
    */
   double distance(const World &world) const;
 
+  int getNumObjects() const;
   vector<vec3> getPosition() const { return position; }
   vector<vec3> getVelocity() const { return velocity; }
 
   void setPosition(const vector<vec3> pos) { this->position = pos; };
   void setVelocity(const vector<vec3> vel) { this->velocity = vel; };
+
+  void operator+=(const vector<double> &grad) {
+    int NObjects = this->position.size();
+    for (int i = 0; i < NObjects * 3 * 2; i++) {
+      int object = i / (NObjects*2);
+      int dimension = i % (NObjects*2);
+      if (dimension <= 2) {
+        this->position[object][dimension] += grad[i];
+      } else {
+        this->velocity[object][dimension - 3] += grad[i];
+      }
+    }
+  }
+
+  void operator-=(const vector<double> &grad) {
+    int NObjects = this->position.size();
+    for (int i = 0; i < NObjects * 3 * 2; i++) {
+      int object = i / (NObjects*2);
+      int dimension = i % (NObjects*2);
+      if (dimension <= 2) {
+        this->position[object][dimension] -= grad[i];
+      } else {
+        this->velocity[object][dimension - 3] -= grad[i];
+      }
+    }
+  }
 
   inline bool operator==(const World &world) const {
     int size = this->position.size();
